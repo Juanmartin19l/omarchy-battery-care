@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "id": "io.github.juanmartin19l.battery-care",
+  "name": "Lenovo Battery Care",
+  "version": "1.0.0",
+  "author": "Juanmartin19l",
+  "license": "MIT",
+  "description": "Lenovo charge modes (Fast / Standard / Long life) in the bar, with a one-time 100% charge.",
+  "kinds": [
+    "service",
+    "bar-widget"
+  ],
+  "entryPoints": {
+    "service": "Service.qml",
+    "barWidget": "BarWidget.qml"
+  },
+  "barWidget": {
+    "displayName": "Battery care",
+    "description": "Lenovo charge-mode picker with battery health and a one-time 100% charge.",
+    "category": "Power",
+    "allowMultiple": false,
+    "defaultSection": "right"
+  }
+}

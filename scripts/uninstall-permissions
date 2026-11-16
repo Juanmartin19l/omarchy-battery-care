@@ -1,0 +1,7 @@
+#!/bin/bash
+# Removes the udev rule installed by install-permissions and restores root-only write access.
+set -euo pipefail
+[[ $EUID -eq 0 ]] || { echo "Run as root (sudo $0)" >&2; exit 1; }
+rm -f /etc/udev/rules.d/99-omarchy-lenovo-battery-care.rules
+udevadm control --reload
+for f in /sys/class/power_supply/BAT*/charge_types; do chgrp root "$f"; chmod g-w "$f"; done
