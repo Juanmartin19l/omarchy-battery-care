@@ -13,7 +13,7 @@ An Omarchy bar widget that switches the charge mode of Lenovo laptops (**Fast**,
   - the one-time charge switch
   - charge cycles and battery health
 - **Right click** starts a one-time 100% charge when Long life is on, or switches back to Long life from any other mode.
-- **Charge to 100% once** switches to Standard. It goes back to Long life when the battery reaches 100% or the charger is unplugged. The pending state is kept in `~/.local/state/io.github.juanmartin19l.battery-care/` so it survives shell restarts and reboots.
+- **Charge to 100% once** switches to Standard. It goes back to Long life when the battery reaches 100%, or when the charger is unplugged mid-charge. Turned on while unplugged, it waits for the charger. The pending state is kept in `~/.local/state/io.github.juanmartin19l.battery-care/` so it survives shell restarts and reboots.
 - The battery is found automatically: the first `/sys/class/power_supply/BAT*` with a `charge_types` file.
 - No `sudo` or sudoers rule at runtime. A udev rule makes `charge_types` writable by the `wheel` group, and the plugin writes to it directly.
 - English and Spanish strings. The plugin follows the language chosen under Setup > Language.

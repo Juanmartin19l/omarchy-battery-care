@@ -13,7 +13,7 @@
   "hint.Standard": "Normal charge to 100%",
   "hint.Long_Life": "Stops at the firmware cap (~60–80%). Best for lifespan",
   "oneshot.title": "Charge to 100% once",
-  "oneshot.hint": "Goes back to Long life when full or unplugged",
+  "oneshot.hint": "Goes back to Long life when full or when unplugged mid-charge",
   "oneshot.active": "One-time full charge in progress",
   "cycles": "Charge cycles",
   "health": "Battery health",
@@ -22,5 +22,6 @@
   "tip.Standard": "Charging to 100%. Right-click for Long life",
   "tip.Fast": "Fast charging to 100%",
   "tip.oneshot": "Charging to 100% once, then back to Long life",
-  "percentState": "%1% · %2"
+  "percentState": "%1% · %2",
+  "oneshot.waiting": "Waiting for the charger"
 }

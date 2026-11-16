@@ -13,8 +13,9 @@ import qs.Commons
 // that makes charge_types group-writable by wheel, so no sudo is needed.
 //
 // "One-time full charge": switches to Standard and returns to Long_Life once
-// the battery reaches 100% or the charger is unplugged. The flag lives in a
-// state file so it survives shell restarts and reboots.
+// the battery reaches 100% or the charger is unplugged mid-charge. Turned on
+// while unplugged, it waits for the charger. The flag lives in a state file
+// so it survives shell restarts and reboots.
 Item {
   id: root
 
@@ -131,16 +132,19 @@ Item {
 
   // Picked by the user: cancels any one-time full charge.
   function setChargeType(mode) {
+    if (!writable) return
     setOneShot(false)
     writeMode(mode)
   }
 
   function startOneShot() {
+    if (!writable) return
     setOneShot(true)
     writeMode("Standard")
   }
 
   function cancelOneShot() {
+    if (!writable) return
     setOneShot(false)
     writeMode("Long_Life")
   }
@@ -156,21 +160,40 @@ Item {
 
   Process { id: flagProc }
 
-  // Full (by percentage: a capped battery can also report FullyCharged) or
-  // running on battery ends the one-time charge.
+  // Reaching 100% on AC ends the one-time charge. Percentage is checked
+  // rather than FullyCharged alone, because a capped battery also reports
+  // FullyCharged; FullyCharged counts only once Long_Life is off.
+  // Enabled while unplugged, the one-time charge waits for the charger.
   function checkOneShot() {
-    if (!oneShot || percent < 0) return
-    if (UPower.onBattery || percent >= 100) cancelOneShot()
+    if (!oneShot || percent < 0 || chargeType === "" || UPower.onBattery) return
+    // The mode was changed elsewhere: the cap would stop the charge short of 100%.
+    if (chargeType === "Long_Life") { writeMode("Standard"); return }
+    var d = UPower.displayDevice
+    if (d && d.state === UPowerDeviceState.Charging) oneShotSawCharging = true
+    var full = percent >= 100
+      || (chargeType !== "Long_Life" && d && d.state === UPowerDeviceState.FullyCharged)
+    if (full) cancelOneShot()
   }
+
+  // Unplugging ends the one-time charge, so the next plug-in is capped again,
+  // but only once it has actually charged in this session: UPower reports
+  // its initial on-battery state as a change at startup, and a one-time
+  // charge turned on while unplugged must keep waiting for the charger.
+  property bool oneShotSawCharging: false
+  onOneShotChanged: oneShotSawCharging = false
 
   Connections {
     target: UPower
-    function onOnBatteryChanged() { root.checkOneShot() }
+    function onOnBatteryChanged() {
+      if (root.oneShot && UPower.onBattery && root.oneShotSawCharging) root.cancelOneShot()
+      else root.checkOneShot()
+    }
   }
 
   Connections {
     target: UPower.displayDevice
     function onPercentageChanged() { root.checkOneShot() }
+    function onStateChanged() { root.checkOneShot() }
   }
 
   Process {

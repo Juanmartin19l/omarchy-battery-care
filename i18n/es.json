@@ -13,7 +13,7 @@
   "hint.Standard": "Carga normal al 100%",
   "hint.Long_Life": "Se detiene en el tope del firmware (~60–80%). Lo mejor para la vida útil",
   "oneshot.title": "Cargar al 100% una vez",
-  "oneshot.hint": "Vuelve a Larga vida al llenarse o al desenchufar",
+  "oneshot.hint": "Vuelve a Larga vida al llenarse o si desenchufás a mitad de carga",
   "oneshot.active": "Carga completa única en curso",
   "cycles": "Ciclos de carga",
   "health": "Salud de la batería",
@@ -22,5 +22,6 @@
   "tip.Standard": "Cargando al 100%. Clic derecho para Larga vida",
   "tip.Fast": "Carga rápida al 100%",
   "tip.oneshot": "Cargando al 100% una vez, luego vuelve a Larga vida",
-  "percentState": "%1% · %2"
+  "percentState": "%1% · %2",
+  "oneshot.waiting": "Esperando el cargador"
 }

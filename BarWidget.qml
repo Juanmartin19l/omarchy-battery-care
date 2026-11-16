@@ -198,7 +198,8 @@ Panel {
             Text {
               width: parent.width
               textFormat: Text.PlainText
-              text: root.oneShot ? strings.t("oneshot.active") : strings.t("oneshot.hint")
+              text: !root.oneShot ? strings.t("oneshot.hint")
+                : UPower.onBattery ? strings.t("oneshot.waiting") : strings.t("oneshot.active")
               color: root.oneShot ? Color.accent : root.dim
               wrapMode: Text.Wrap
               font.family: root.bar.fontFamily

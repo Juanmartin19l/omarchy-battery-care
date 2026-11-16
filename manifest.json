@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "id": "io.github.juanmartin19l.battery-care",
   "name": "Lenovo Battery Care",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "author": "Juanmartin19l",
   "license": "MIT",
   "description": "Lenovo charge modes (Fast / Standard / Long life) in the bar, with a one-time 100% charge.",
